@@ -1,7 +1,15 @@
 package iteration
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
+func ExampleRepeat() {
+	repeat := Repeat("a")
+	fmt.Println(repeat)
+	// Output: aaaaa
+}
 func TestRepeat(t *testing.T) {
 	repeated := Repeat("a")
 	expected := "aaaaa"
