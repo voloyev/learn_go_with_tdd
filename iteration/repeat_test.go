@@ -6,12 +6,12 @@ import (
 )
 
 func ExampleRepeat() {
-	repeat := Repeat("a")
+	repeat := Repeat("a", 5)
 	fmt.Println(repeat)
 	// Output: aaaaa
 }
 func TestRepeat(t *testing.T) {
-	repeated := Repeat("a")
+	repeated := Repeat("a", 5)
 	expected := "aaaaa"
 
 	if repeated != expected {
@@ -21,6 +21,6 @@ func TestRepeat(t *testing.T) {
 
 func BenchmarkRepeat(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		Repeat("a")
+		Repeat("a", 100)
 	}
 }
