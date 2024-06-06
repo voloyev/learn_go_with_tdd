@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestPerimeter(t *testing.T) {
 	rectangle := Rectangle{10.0, 10.0}
@@ -12,7 +15,22 @@ func TestPerimeter(t *testing.T) {
 	}
 }
 
+func BenchmarkPerimeter(b *testing.B) {
+	rectangle := Rectangle{10.0, 22.0}
+
+	rectangle.Perimeter()
+}
+
 func TestArea(t *testing.T) {
+	areaTests := []struct {
+		shape Shape
+		want  float64
+	}{
+		{Rectangle{12, 6}, 72.0},
+		{Circle{10}, 314.1592653589793},
+		{Triangle{12, 6}, 36.0},
+	}
+
 	checkArea := func(t testing.TB, shape Shape, want float64) {
 		t.Helper()
 		got := shape.Area()
@@ -33,4 +51,51 @@ func TestArea(t *testing.T) {
 		want := 314.1592653589793
 		checkArea(t, circle, want)
 	})
+
+	for _, tt := range areaTests {
+		got := tt.shape.Area()
+		if got != tt.want {
+			t.Errorf("got %g want %g", got, tt.want)
+		}
+	}
+}
+
+func BenchmarkArea(t *testing.B) {
+	areaTests := []struct {
+		shape Shape
+	}{
+		{Rectangle{12, 6}},
+		{Circle{10}},
+		{Triangle{12, 6}},
+	}
+
+	for _, tt := range areaTests {
+		tt.shape.Area()
+	}
+}
+
+func ExampleRectangle_Area() {
+	rectangle := Rectangle{12.0, 6.0}
+
+	fmt.Printf("%.1f", rectangle.Area())
+	// Output: 72.0
+}
+
+func ExampleRectangle_Perimeter() {
+	rectangle := Rectangle{12.0, 6.0}
+	fmt.Printf("%.1f", rectangle.Perimeter())
+	// Output: 36.0
+}
+
+func ExampleCircle_Area() {
+	circle := Circle{10.0}
+	fmt.Printf("%.1f", circle.Area())
+	// Output: 314.2
+}
+
+func ExampleTriangle_Area() {
+	triangle := Triangle{10.0, 22.0}
+
+	fmt.Printf("%.1f", triangle.Area())
+	// Output: 110.0
 }
