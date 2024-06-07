@@ -1,5 +1,9 @@
 .PHONY: test
 test:
+	go test -v -race -buildvcs ./...
+
+.PHONY: test/bench
+test/bench:
 	go test -v -race -buildvcs -bench=. ./...
 
 .PHONY: test/cover
